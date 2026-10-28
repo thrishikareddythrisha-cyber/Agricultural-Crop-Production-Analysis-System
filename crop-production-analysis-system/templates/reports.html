@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block title %}Reports | Crop Analysis{% endblock %}
+{% block content %}
+<h1 class="h2 mb-3">Data quality and year comparison</h1>
+{% if summary %}
+<div class="card mb-4"><div class="card-body">
+<h2 class="h5">Data quality summary</h2>
+<ul class="mb-0">
+<li>Records with non-positive area: {{ summary.quality.invalid_area_rows or 0 }}</li>
+<li>Records with negative production: {{ summary.quality.negative_production_rows or 0 }}</li>
+<li>Records with missing rainfall: {{ summary.quality.missing_rainfall_rows or 0 }}</li>
+</ul>
+<p class="small text-muted mt-3">Import validation blocks non-positive area and negative production. Missing rainfall is permitted because it is optional.</p>
+</div></div>
+<div class="card"><div class="card-body"><h2 class="h5">Year comparison</h2>
+<div class="table-responsive"><table class="table"><thead><tr><th>Year</th><th>Production unit</th><th>Total production</th></tr></thead><tbody>
+{% for row in summary.by_crop %}{% endfor %}
+{% for row in yearly %}<tr><td>{{ row.year }}</td><td>{{ row.production_unit }}</td><td>{{ '%.2f'|format(row.total_production) }}</td></tr>{% else %}<tr><td colspan="3">No data yet.</td></tr>{% endfor %}
+</tbody></table></div>
+</div></div>
+{% else %}<p>Database is not available yet. Configure MySQL and restart the app.</p>{% endif %}
+{% endblock %}

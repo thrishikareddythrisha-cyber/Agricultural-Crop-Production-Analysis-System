@@ -1,0 +1,9 @@
+crop_name,region_name,year,cultivated_area,production,rainfall_mm,area_unit,production_unit
+Rice,Region A,2021,100,420,850,hectare,tonne
+Rice,Region A,2022,105,451,900,hectare,tonne
+Rice,Region A,2023,110,462,875,hectare,tonne
+Cotton,Region A,2021,80,160,700,hectare,tonne
+Cotton,Region B,2021,65,117,650,hectare,tonne
+Cotton,Region B,2022,70,140,720,hectare,tonne
+Maize,Region B,2022,90,360,780,hectare,tonne
+Maize,Region B,2023,95,399,810,hectare,tonne

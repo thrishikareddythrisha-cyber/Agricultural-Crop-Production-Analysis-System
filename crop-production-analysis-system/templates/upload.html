@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block title %}Upload dataset | Crop Analysis{% endblock %}
+{% block content %}
+<h1 class="h2 mb-3">Upload crop production CSV</h1>
+<p>Required columns: <code>crop_name, region_name, year, cultivated_area, production, area_unit, production_unit</code>. Optional: <code>rainfall_mm</code>.</p>
+<div class="alert alert-info">Use one consistent area and production unit within each comparison. Yield is calculated as production ÷ cultivated area; its unit is production-unit per area-unit.</div>
+<form method="post" enctype="multipart/form-data" class="card card-body mb-4">
+  <label for="dataset" class="form-label">CSV file</label>
+  <input class="form-control mb-3" type="file" id="dataset" name="dataset" accept=".csv" required>
+  <button class="btn btn-success align-self-start" type="submit">Validate and import</button>
+</form>
+<a href="{{ url_for('static', filename='sample_data/crop_production_sample.csv') }}">Download sample CSV</a>
+{% if issues %}
+<div class="alert alert-danger mt-4"><h2 class="h5">Data validation issues</h2><ul>{% for issue in issues %}<li>{{ issue }}</li>{% endfor %}</ul><p class="mb-0">Fix these issues in your CSV and upload it again. No rows were imported.</p></div>
+{% endif %}
+{% if preview %}<h2 class="h5 mt-4">Preview</h2><div class="table-responsive">{{ preview|safe }}</div>{% endif %}
+{% endblock %}

@@ -1,0 +1,6 @@
+body { background: #f6f8f5; }
+.hero { background: #e8f4e8; }
+.card { border: 0; box-shadow: 0 2px 12px rgba(0,0,0,.05); }
+.metric-card { border-left: 4px solid #198754; }
+.chart { max-height: 440px; width: 100%; object-fit: contain; }
+code { overflow-wrap: anywhere; }

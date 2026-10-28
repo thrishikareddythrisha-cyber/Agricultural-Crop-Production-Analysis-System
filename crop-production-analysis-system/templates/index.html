@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% block title %}Dashboard | Crop Analysis{% endblock %}
+{% block content %}
+<div class="p-4 p-md-5 mb-4 rounded-3 hero">
+  <h1 class="display-6 fw-bold">Agricultural Crop Production Analysis</h1>
+  <p class="lead">Explore historical crop production, cultivated area, rainfall records and yield.</p>
+  <a class="btn btn-success" href="{{ url_for('upload') }}">Upload a dataset</a>
+</div>
+{% if setup_error %}
+  <div class="alert alert-warning"><b>Database setup needed:</b> {{ setup_error }}<br>Check your .env settings and ensure MySQL is running.</div>
+{% elif summary %}
+  <div class="row g-3 mb-4">
+    {% for label, value in [('Records',summary.records),('Crops',summary.crops),('Regions',summary.regions),('Years',summary.years)] %}
+    <div class="col-6 col-lg-3"><div class="card metric-card"><div class="card-body"><div class="text-muted">{{ label }}</div><div class="display-6">{{ value }}</div></div></div></div>
+    {% endfor %}
+  </div>
+  <div class="card mb-4"><div class="card-body">
+    <h2 class="h5">Total recorded production by year</h2>
+    <p class="text-muted small">Only interpret totals together when production units are consistent.</p>
+    <img class="img-fluid chart" src="{{ url_for('chart') }}" alt="Production trend chart">
+    <hr>
+    <h2 class="h5">Yield by crop and year</h2>
+    <p class="text-muted small">Yield = total production ÷ total cultivated area, grouped by crop, year and units.</p>
+    <img class="img-fluid chart" src="{{ url_for('yield_chart') }}" alt="Yield trend chart">
+  </div></div>
+  <div class="row g-4">
+    <div class="col-lg-6"><div class="card h-100"><div class="card-body">
+      <h2 class="h5">Production by crop</h2>
+      <div class="table-responsive"><table class="table table-sm"><thead><tr><th>Crop</th><th>Unit</th><th>Total production</th></tr></thead><tbody>
+      {% for row in summary.by_crop %}<tr><td>{{ row.crop_name }}</td><td>{{ row.production_unit }}</td><td>{{ '%.2f'|format(row.total_production) }}</td></tr>{% else %}<tr><td colspan="3">No records yet.</td></tr>{% endfor %}
+      </tbody></table></div>
+    </div></div></div>
+    <div class="col-lg-6"><div class="card h-100"><div class="card-body">
+      <h2 class="h5">Production by region</h2>
+      <div class="table-responsive"><table class="table table-sm"><thead><tr><th>Region</th><th>Unit</th><th>Total production</th></tr></thead><tbody>
+      {% for row in summary.by_region %}<tr><td>{{ row.region_name }}</td><td>{{ row.production_unit }}</td><td>{{ '%.2f'|format(row.total_production) }}</td></tr>{% else %}<tr><td colspan="3">No records yet.</td></tr>{% endfor %}
+      </tbody></table></div>
+    </div></div></div>
+  </div>
+{% endif %}
+{% endblock %}
